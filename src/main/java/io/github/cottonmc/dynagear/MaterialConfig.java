@@ -16,8 +16,7 @@ import net.minecraft.util.registry.Registry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class MaterialConfig {
@@ -36,7 +35,9 @@ public class MaterialConfig {
 				}
 			}
 			JsonObject json = jankson.load(file);
-			for (String key : json.keySet()) {
+			List<String> keys = new ArrayList<>(json.keySet());
+			Collections.sort(keys);
+			for (String key : keys) {
 				JsonElement elem = json.get(key);
 				if (elem instanceof JsonObject) {
 					ConfiguredMaterial mat = getMaterial(key, (JsonObject)elem);
