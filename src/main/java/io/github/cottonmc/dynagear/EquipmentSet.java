@@ -24,7 +24,7 @@ public class EquipmentSet {
 	public static final String[] EQUIPMENT = new String[]{"_sword", "_shovel", "_pickaxe", "_axe", "_hoe", "_helmet", "_chestplate", "_leggings", "_boots"};
 
 	private EquipmentSet(ConfiguredMaterial material) {
-		this.name = material.getName();
+		this.name = material.getMaterialName();
 		this.material = material;
 		equipment.put(name+"_sword", new SwordItem(material, 3, -2.4f, getSettings()));
 		equipment.put(name+"_shovel", new ShovelItem(material, 1.5F, -3.0F, getSettings()));
@@ -47,7 +47,7 @@ public class EquipmentSet {
 	public static EquipmentSet create(ConfiguredMaterial material) {
 		EquipmentSet set = new EquipmentSet(material);
 		set.registerAll();
-		ResourceBuilders.createResources(set);
+		ResourceBuilders.createRecipes(set);
 		return set;
 	}
 

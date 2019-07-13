@@ -4,7 +4,10 @@ import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
 import io.github.cottonmc.dynagear.ConfiguredMaterial;
 import io.github.cottonmc.dynagear.DynaGear;
+import io.github.cottonmc.dynagear.DynaGearClient;
 import io.github.cottonmc.dynagear.EquipmentSet;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
@@ -26,48 +29,34 @@ public class ResourceBuilders {
 		return builder;
 	}
 
-	public static void createResources(EquipmentSet set) {
-		createRecipes(set);
-		createModels(set);
-		createTranslations(set);
-	}
-
 	public static void createRecipes(EquipmentSet set) {
 		ConfiguredMaterial material = set.getMaterial();
 		for (String piece : PATTERNS.keySet()) {
-			Identifier result = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
+			Identifier result = new Identifier(DynaGear.MODID, material.getMaterialName() + "_" + piece);
 			Pair<String[], Boolean> pattern = PATTERNS.get(piece);
 			DynaGear.RECIPES.put(result, (builder) -> applyDict(builder.pattern(pattern.getLeft()), material.getMaterialId(), pattern.getRight()).result(result, 1));
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public static void createModels(EquipmentSet set) {
 		ConfiguredMaterial material = set.getMaterial();
 		for (String piece : PATTERNS.keySet()) {
-			Identifier item = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
+			Identifier item = new Identifier(DynaGear.MODID, material.getMaterialName() + "_" + piece);
 			Boolean twoLayer = PATTERNS.get(piece).getRight();
-			DynaGear.MODELS.put(item, (builder) -> applyModel(builder.parent(new Identifier("item/generated")), piece, twoLayer));
+			DynaGearClient.MODELS.put(item, (builder) -> applyModel(builder.parent(new Identifier("item/generated")), piece, twoLayer));
 		}
 	}
 
+	@Environment(EnvType.CLIENT)
 	public static void createTranslations(EquipmentSet set) {
 		ConfiguredMaterial material = set.getMaterial();
 		for (String piece : PATTERNS.keySet()) {
-			String id = "item.dynagear." + material.getName() + "_" + piece;
-			String name = capitalize(material.getName() + " " + piece);
-			DynaGear.TRANSLATIONS.put(id, name);
-		}
-	}
+			String id = "item.dynagear." + material.getMaterialName() + "_" + piece;
+			String name = material.getMaterialName().substring(0,1).toUpperCase() + material.getMaterialName().substring(1);
 
-	private static String capitalize(String name) {
-		String[] words = name.split("\\s");
-		StringBuilder ret = new StringBuilder();
-		for(String word : words){
-			String first = word.substring(0,1);
-			String afterfirst = word.substring(1);
-			ret.append(first.toUpperCase()).append(afterfirst).append(" ");
+			DynaGearClient.ITEM_TRANSLATIONS.put(id, new Pair<>("translation.dynagear."+piece, name));
 		}
-		return ret.toString().trim();
 	}
 
 	public static ModelBuilder applyModel(ModelBuilder builder, String part, boolean tool) {

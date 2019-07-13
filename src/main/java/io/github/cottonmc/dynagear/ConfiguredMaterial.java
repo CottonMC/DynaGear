@@ -49,10 +49,14 @@ public class ConfiguredMaterial implements ArmorMaterial, ToolMaterial {
 		this.equipSound = equipSound;
 	}
 
+	public String getMaterialName() {
+		return name;
+	}
+
 	@Override
 	@Environment(EnvType.CLIENT)
 	public String getName() {
-		return name;
+		return getMaterialName();
 	}
 
 	public int getColor() {

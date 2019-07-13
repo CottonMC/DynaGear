@@ -1,6 +1,6 @@
 {
   "aluminum": {
-    "color": "-544042",
+    "color": "#fff9b9b9",
     "material": "#c:aluminum_ingot",
     "enchantability": 16,
     "tool_durability": 300,
@@ -13,7 +13,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "brass": {
-    "color": "-12288",
+    "color": "#ffffbe3a",
     "material": "#c:brass_ingot",
     "enchantability": 16,
     "tool_durability": 400,
@@ -26,7 +26,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "cobalt": {
-    "color": "-15257647",
+    "color": "#ff1d41c4",
     "material": "#c:cobalt_ingot",
     "enchantability": 16,
     "tool_durability": 800,
@@ -39,7 +39,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "copper": {
-    "color": "-24033",
+    "color": "#ffc35d12",
     "material": "#c:copper_ingot",
     "enchantability": 12,
     "tool_durability": 275,
@@ -52,7 +52,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "electrum": {
-    "color": "-1387408",
+    "color": "#ffffe86d",
     "material": "#c:electrum_ingot",
     "enchantability": 16,
     "tool_durability": 440,
@@ -65,7 +65,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "iridium": {
-    "color": "-5180745",
+    "color": "#ff80e0c2",
     "material": "#c:iridium_ingot",
     "enchantability": 22,
     "tool_durability": 600,
@@ -78,7 +78,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "lead": {
-    "color": "-5269812",
+    "color": "#ff64536d",
     "material": "#c:lead_ingot",
     "enchantability": 20,
     "tool_durability": 375,
@@ -91,7 +91,7 @@
     "equip_sound": "minecraft:item.armor.equip_gold"
   },
   "mercury": {
-    "color": "-65536",
+    "color": "#ffff0000",
     "material": "#c:mercury",
     "enchantability": 10,
     "tool_durability": 50,
@@ -104,7 +104,7 @@
     "equip_sound": "minecraft:item.armor.equip_chain"
   },
   "osmium": {
-    "color": "-4005907",
+    "color": "#ffafc0ed",
     "material": "#c:osmium_ingot",
     "enchantability": 16,
     "tool_durability": 500,
@@ -117,7 +117,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "palladium": {
-    "color": "-1985304",
+    "color": "#ffc3a5d2",
     "material": "#c:palladium_ingot",
     "enchantability": 16,
     "tool_durability": 100,
@@ -130,7 +130,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "platinum": {
-    "color": "-1",
+    "color": "#ffffffff",
     "material": "#c:platinum_ingot",
     "enchantability": 16,
     "tool_durability": 150,
@@ -143,7 +143,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "silver": {
-    "color": "-7108609",
+    "color": "#ff96b2ff",
     "material": "#c:silver_ingot",
     "enchantability": 25,
     "tool_durability": 325,
@@ -156,7 +156,7 @@
     "equip_sound": "minecraft:item.armor.equip_gold"
   },
   "steel": {
-    "color": "-8947849",
+    "color": "#ff464a57",
     "material": "#c:steel_ingot",
     "enchantability": 10,
     "tool_durability": 600,
@@ -169,7 +169,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron",
   },
   "tin": {
-    "color": "-10244353",
+    "color": "#ff6592dd",
     "material": "#c:tin_ingot",
     "enchantability": 16,
     "tool_durability": 290,
@@ -182,7 +182,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "titanium": {
-    "color": "-8947849",
+    "color": "#ff6c6c6c",
     "material": "#c:titanium_ingot",
     "enchantability": 14,
     "tool_durability": 600,
@@ -195,7 +195,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "tungsten": {
-    "color": "-13685436",
+    "color": "#ff31374a",
     "material": "#c:tungsten_ingot",
     "enchantability": 16,
     "tool_durability": 700,
@@ -208,7 +208,7 @@
     "equip_sound": "minecraft:item.armor.equip_iron"
   },
   "zinc": {
-    "color": "-3014665",
+    "color": "#ff839c94",
     "material": "#c:zinc_ingot",
     "enchantability": 16,
     "tool_durability": 200,

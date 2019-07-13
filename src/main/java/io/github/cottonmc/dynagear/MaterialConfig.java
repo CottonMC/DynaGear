@@ -28,6 +28,7 @@ public class MaterialConfig {
 			File file = FabricLoader.getInstance().getConfigDirectory().toPath().resolve("dynagear.json5").toFile();
 			if (!file.exists()) {
 				if (FabricLoader.getInstance().isModLoaded("cotton-resources")) {
+					DynaGear.logger.info("Cotton Resources detected! Generating default equipment...");
 					exportResourcesConfig();
 				} else {
 					DynaGear.logger.warn("No config was found! DynaGear will not add any equipment!");
@@ -40,7 +41,13 @@ public class MaterialConfig {
 			for (String key : keys) {
 				JsonElement elem = json.get(key);
 				if (elem instanceof JsonObject) {
-					ConfiguredMaterial mat = getMaterial(key, (JsonObject)elem);
+					JsonObject config = (JsonObject)elem;
+					String material = config.get(String.class, "material");
+					if (material == null) {
+						DynaGear.logger.error("Could not find ingredient material for material " + key + "! Skipping!");
+						continue;
+					}
+					ConfiguredMaterial mat = getMaterial(key, config);
 					EQUIPMENT.put(key, EquipmentSet.create(mat));
 				}
 			}
@@ -97,6 +104,7 @@ public class MaterialConfig {
 		if (export.exists()) {
 			try {
 				JsonObject json = jankson.load(export);
+				//TODO: once ore-voting is merged, remove elements for non-registered Cotton Resources mats
 				String result = json.toJson(true, true);
 				if (!target.exists()) target.createNewFile();
 				FileOutputStream out = new FileOutputStream(target, false);

@@ -1,3 +1,12 @@
 {
-  "itemGroup.dynagear.dynagear": "DynaGear"
+  "itemGroup.dynagear.dynagear": "DynaGear",
+  "translation.dynagear.sword": "%s Sword",
+  "translation.dynagear.shovel": "%s Shovel",
+  "translation.dynagear.pickaxe": "%s Pickaxe",
+  "translation.dynagear.axe": "%s Axe",
+  "translation.dynagear.hoe": "%s Hoe",
+  "translation.dynagear.helmet": "%s Helmet",
+  "translation.dynagear.chestplate": "%s Chestplate",
+  "translation.dynaear.leggings": "%s Leggings",
+  "translation.dynagear.boots": "%s Boots"
 }
