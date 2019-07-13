@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "dynagear",
+  "version": "$version",
+
+  "name": "DynaGear",
+  "icon": "assets/dynagear/icon.png",
+  "description": "Configurable tool and armor sets!",
+  "licence": "MIT",
+  "contact": {
+    "sources": "https://github.com/CottonMC/DynaGear"
+  },
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.cottonmc.dynagear.DynaGear"
+    ]
+  },
+  "requires": {
+    "fabricloader": ">=0.4.0"
+  }
+}

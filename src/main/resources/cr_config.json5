@@ -1,0 +1,28 @@
+{
+  "aluminum": {
+    "color": "-544042",
+    "material": "#c:aluminum_ingot",
+    "enchantability": 16,
+    "tool_durability": 300,
+    "mining_level": 1,
+    "mining_speed": 1.3,
+    "attack_damage": 2,
+    "armor_multiplier": 20,
+    "protection_amounts": [3, 4, 5, 3],
+    "armor_toughness": 0.25,
+    "equip_sound": "minecraft:item.armor.equip_iron"
+  },
+  "copper": {
+    "color": "-24033",
+    "material": "#c:copper_ingot",
+    "enchantability": 12,
+    "tool_durability": 275,
+    "mining_level": 1,
+    "mining_speed": 5.3,
+    "attack_damage": 1,
+    "armor_multiplier": 12,
+    "protection_amounts": [2, 4, 5, 2],
+    "armor_toughness": 0.5,
+    "equip_sound": "minecraft:item.armor.equip_iron"
+  }
+}
