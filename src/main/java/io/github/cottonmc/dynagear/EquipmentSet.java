@@ -9,6 +9,7 @@ import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public class EquipmentSet {
 	private static Item.Settings getSettings() {
 		return new Item.Settings().group(DynaGear.DYNAGEAR_GROUP);
 	}
+	//for preserving order during registration
+	public static final String[] EQUIPMENT = new String[]{"_sword", "_shovel", "_pickaxe", "_axe", "_hoe", "_helmet", "_chestplate", "_leggings", "_boots"};
 
 	private EquipmentSet(ConfiguredMaterial material) {
 		this.name = material.getName();
@@ -35,7 +38,8 @@ public class EquipmentSet {
 	}
 
 	private void registerAll() {
-		for (String key : equipment.keySet()) {
+		for (String suffux : EQUIPMENT) {
+			String key = name + suffux;
 			Registry.register(Registry.ITEM, new Identifier(DynaGear.MODID, key), equipment.get(key));
 		}
 	}
@@ -43,7 +47,7 @@ public class EquipmentSet {
 	public static EquipmentSet create(ConfiguredMaterial material) {
 		EquipmentSet set = new EquipmentSet(material);
 		set.registerAll();
-		ResourceBuilders.createRecipes(set);
+		ResourceBuilders.createResources(set);
 		return set;
 	}
 
@@ -89,6 +93,10 @@ public class EquipmentSet {
 
 	public Item get(String type) {
 		return equipment.get(name+"_"+type);
+	}
+
+	public Collection<Item> getAll() {
+		return equipment.values();
 	}
 
 }

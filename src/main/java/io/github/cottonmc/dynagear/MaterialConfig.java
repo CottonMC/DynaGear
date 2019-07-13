@@ -2,6 +2,7 @@ package io.github.cottonmc.dynagear;
 
 import blue.endless.jankson.*;
 import blue.endless.jankson.impl.SyntaxError;
+import com.google.gson.JsonSyntaxException;
 import io.github.cottonmc.jankson.JanksonFactory;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -47,7 +48,7 @@ public class MaterialConfig {
 		}
 	}
 
-	public static ConfiguredMaterial getMaterial(String name, JsonObject json) {
+	public static ConfiguredMaterial getMaterial(String name, JsonObject json) throws SyntaxError {
 		String color = json.get(String.class, "color");
 		String material = json.get(String.class, "material");
 		Integer enchantability = json.get(Integer.class, "enchantability");
@@ -59,6 +60,18 @@ public class MaterialConfig {
 		JsonArray protectionAmounts = (JsonArray)json.get("protection_amounts");
 		Float toughness = json.get(Float.class, "armor_toughness");
 		String soundId = json.get(String.class, "equip_sound");
+
+		if (color == null) throw new SyntaxError("No color for material " + name);
+		if (material == null) throw new SyntaxError("No material ingredient for material " + name);
+		if (enchantability == null) throw new SyntaxError("No enchantability for material " + name);
+		if (toolDurability == null) throw new SyntaxError("No tool durability for material " + name);
+		if (miningLevel == null) throw new SyntaxError("No mining level for material " + name);
+		if (miningSpeed == null) throw new SyntaxError("No mining speed for material" + name);
+		if (attackDamage == null) throw new SyntaxError("No attack damage for material " + name);
+		if (armorMultiplier == null) throw new SyntaxError("No armor multiplier for material " + name);
+		if (protectionAmounts == null) throw new SyntaxError("No protection amounts for material " + name);
+		if (toughness == null) throw new SyntaxError("No armor toughness for material " + name);
+		if (soundId == null) throw new SyntaxError("No equip sound for material " + name);
 
 		IntList prots = new IntArrayList();
 		for (JsonElement el : protectionAmounts) {
