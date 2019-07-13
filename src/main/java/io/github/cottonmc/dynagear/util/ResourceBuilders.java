@@ -31,7 +31,7 @@ public class ResourceBuilders {
 		for (String piece : EQUIPMENT) {
 			Identifier result = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
 			Pair<String[], Boolean> pattern = PATTERNS.get(piece);
-			DynaGear.RECIPES.put(result, applyDict(new ShapedRecipeBuilder().pattern(pattern.getLeft()), material.getMaterialId(), pattern.getRight()).result(result, 1));
+			DynaGear.RECIPES.put(result, (builder) -> applyDict(builder.pattern(pattern.getLeft()), material.getMaterialId(), pattern.getRight()).result(result, 1));
 		}
 	}
 
