@@ -1,6 +1,6 @@
 package io.github.cottonmc.dynagear.item;
 
-import io.github.cottonmc.dynagear.ConfiguredMaterial;
+import io.github.cottonmc.dynagear.api.ConfiguredMaterial;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;

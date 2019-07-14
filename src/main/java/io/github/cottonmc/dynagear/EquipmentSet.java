@@ -1,8 +1,8 @@
 package io.github.cottonmc.dynagear;
 
 
-import io.github.cottonmc.dynagear.item.*;
-import net.minecraft.entity.EquipmentSlot;
+import io.github.cottonmc.dynagear.api.ConfiguredMaterial;
+import io.github.cottonmc.dynagear.api.EquipmentType;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -15,29 +15,19 @@ public class EquipmentSet {
 	private String name;
 	private ConfiguredMaterial material;
 	private Map<String, Item> equipment = new HashMap<>();
-	private static Item.Settings getSettings() {
-		return new Item.Settings().group(DynaGear.DYNAGEAR_GROUP);
-	}
-	//for preserving order during registration
-	public static final String[] EQUIPMENT = new String[]{"_sword", "_shovel", "_pickaxe", "_axe", "_hoe", "_helmet", "_chestplate", "_leggings", "_boots"};
+
 
 	private EquipmentSet(ConfiguredMaterial material) {
 		this.name = material.getName();
 		this.material = material;
-		equipment.put(name+"_sword", new DynaSwordItem(material, 3, -2.4f, getSettings()));
-		equipment.put(name+"_shovel", new DynaShovelItem(material, 1.5F, -3.0F, getSettings()));
-		equipment.put(name+"_pickaxe", new DynaPickaxeItem(material, 1, -2.8F, getSettings()));
-		equipment.put(name+"_axe", new DynaAxeItem(material, 6.0F, -3.2F, getSettings()));
-		equipment.put(name+"_hoe", new DynaHoeItem(material, material.asTool().getMiningLevel()-3, getSettings()));
-		equipment.put(name+"_helmet", new DynaArmorItem(material, "helmet", EquipmentSlot.HEAD, getSettings()));
-		equipment.put(name+"_chestplate", new DynaArmorItem(material, "chestplate", EquipmentSlot.CHEST, getSettings()));
-		equipment.put(name+"_leggings", new DynaArmorItem(material, "leggings", EquipmentSlot.LEGS, getSettings()));
-		equipment.put(name+"_boots", new DynaArmorItem(material, "boots", EquipmentSlot.FEET, getSettings()));
+		for (EquipmentType type : DynaGear.EQUIPMENT_TYPES) {
+			equipment.put(name + "_"+type.getSuffix(), type.construct(material));
+		}
 	}
 
 	private void registerAll() {
-		for (String suffux : EQUIPMENT) {
-			String key = name + suffux;
+		for (EquipmentType type : DynaGear.EQUIPMENT_TYPES) {
+			String key = name + "_" + type.getSuffix();
 			Registry.register(Registry.ITEM, new Identifier(DynaGear.MODID, key), equipment.get(key));
 		}
 	}
@@ -46,6 +36,7 @@ public class EquipmentSet {
 		EquipmentSet set = new EquipmentSet(material);
 		set.registerAll();
 		ResourceBuilders.createRecipes(set);
+		ResourceBuilders.appendTags(set);
 		return set;
 	}
 
@@ -53,44 +44,8 @@ public class EquipmentSet {
 		return material;
 	}
 
-	public Item getSword() {
-		return equipment.get(name+"_sword");
-	}
-
-	public Item getShovel() {
-		return equipment.get(name+"_shovel");
-	}
-
-	public Item getPickaxe() {
-		return equipment.get(name+"_pickaxe");
-	}
-
-	public Item getAxe() {
-		return equipment.get(name+"_axe");
-	}
-
-	public Item getHoe() {
-		return equipment.get(name+"_hoe");
-	}
-
-	public Item getHelmet() {
-		return equipment.get(name+"_helmet");
-	}
-
-	public Item getChestplate() {
-		return equipment.get(name+"_chestplate");
-	}
-
-	public Item getLeggings() {
-		return equipment.get(name+"_leggings");
-	}
-
-	public Item getBoots() {
-		return equipment.get(name+"_boots");
-	}
-
 	public Item get(String type) {
-		return equipment.get(name+"_"+type);
+		return equipment.get(name + "_"+type);
 	}
 
 	public Collection<Item> getAll() {

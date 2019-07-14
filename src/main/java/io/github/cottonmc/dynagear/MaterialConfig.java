@@ -2,14 +2,12 @@ package io.github.cottonmc.dynagear;
 
 import blue.endless.jankson.*;
 import blue.endless.jankson.impl.SyntaxError;
-import com.google.gson.JsonSyntaxException;
+import io.github.cottonmc.dynagear.api.ConfiguredMaterial;
 import io.github.cottonmc.jankson.JanksonFactory;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -19,23 +17,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.function.Supplier;
 
 public class MaterialConfig {
-	public static final Map<String, EquipmentSet> EQUIPMENT = new HashMap<>();
+
 	public static final Jankson jankson = JanksonFactory.createJankson();
 
 	public static void loadConfig() {
 		try {
 			File file = FabricLoader.getInstance().getConfigDirectory().toPath().resolve("dynagear.json5").toFile();
 			if (!file.exists()) {
-				if (FabricLoader.getInstance().isModLoaded("cotton-resources")) {
-					DynaGear.logger.info("[DynaGear] Cotton Resources detected! Generating default equipment...");
-					exportResourcesConfig();
-				} else {
-					DynaGear.logger.warn("[DynaGear] No config was found! DynaGear will not add any equipment!");
-					return;
-				}
+				DynaGear.logger.warn("[DynaGear] No config file found! Generating an empty file.");
+				file.createNewFile();
+				FileOutputStream out = new FileOutputStream(file, false);
+				out.write("{ }".getBytes());
+				out.flush();
+				out.close();
+				return;
 			}
 			JsonObject json = jankson.load(file);
 			List<String> keys = new ArrayList<>(json.keySet());
@@ -50,7 +47,7 @@ public class MaterialConfig {
 						continue;
 					}
 					ConfiguredMaterial mat = getMaterial(key, config);
-					EQUIPMENT.put(key, EquipmentSet.create(mat));
+					Registry.register(DynaGear.MATERIALS, new Identifier(DynaGear.MODID, key), mat);
 				}
 			}
 		} catch (IOException | SyntaxError e) {
@@ -97,24 +94,5 @@ public class MaterialConfig {
 
 		SoundEvent sound = Registry.SOUND_EVENT.get(new Identifier(soundId));
 		return new ConfiguredMaterial(name, color, material, enchantability, toolDurability, miningLevel, miningSpeed, attackDamage, armorMultiplier, prots.toArray(new int[4]), toughness, sound);
-	}
-
-	public static void exportResourcesConfig() {
-		try {
-			InputStream export = Files.newInputStream(FabricLoader.getInstance().getModContainer("dynagear")
-					.orElseThrow(IllegalStateException::new).getPath("cr_config.json5").toAbsolutePath().normalize());
-			File target = FabricLoader.getInstance().getConfigDirectory().toPath().resolve("dynagear.json5").toFile();
-			JsonObject json = jankson.load(export);
-			//TODO: once ore-voting is merged, remove elements for non-registered Cotton Resources mats
-			String result = json.toJson(true, true);
-			if (!target.exists()) target.createNewFile();
-			FileOutputStream out = new FileOutputStream(target, false);
-			out.write(result.getBytes());
-			out.flush();
-			out.close();
-		} catch (IOException | SyntaxError e) {
-			DynaGear.logger.error("[DynaGear] Could not find the Cotton Resources config to export!");
-		}
-
 	}
 }

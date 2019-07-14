@@ -1,4 +1,4 @@
-package io.github.cottonmc.dynagear;
+package io.github.cottonmc.dynagear.api;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -30,6 +30,21 @@ public class ConfiguredMaterial {
 	private final SoundEvent equipSound;
 	private final float toughness;
 
+	/**
+	 * The parameters for creating an equipment set.
+	 * @param name The name of the material.
+	 * @param color The color of the material, in #AARRGGBB or int ARGB form.
+	 * @param matId The ID of the crafting/repair material. (prefix with # for a tag)
+	 * @param enchantability How enchantable the material is, from 0 to 25.
+	 * @param toolDurability How much durability tools of this material have.
+	 * @param miningLevel The max level of block this tool can mine.
+	 * @param miningSpeed The mining speed of this tool. (bigger is better)
+	 * @param attackDamage How much base damage equipment of this material should do.
+	 * @param armorDurabilityMultiplier How much armor of this material should have its durability multiplied by. (see {@link ConfiguredMaterial#BASE_ARMOR_DURABILITY})
+	 * @param protectionAmounts How many armor points each piece of armor gives, in order from head to foot.
+	 * @param toughness How much armor toughness this material's armor should give.
+	 * @param equipSound The sound to play when equipping this material's armor.
+	 */
 	public ConfiguredMaterial(String name, String color, String matId, int enchantability,
 							  int toolDurability, int miningLevel, float miningSpeed, float attackDamage,
 							  int armorDurabilityMultiplier, int[] protectionAmounts, float toughness, SoundEvent equipSound) {
@@ -80,10 +95,16 @@ public class ConfiguredMaterial {
 		}
 	}
 
+	/**
+	 * @return This material, passable to a ToolItem.
+	 */
 	public ConfiguredTool asTool() {
 		return new ConfiguredTool();
 	}
 
+	/**
+	 * @return This material, passable to an ArmorItem.
+	 */
 	public ConfiguredArmor asArmor() {
 		return new ConfiguredArmor();
 	}

@@ -17,6 +17,9 @@
     ],
     "client": [
       "io.github.cottonmc.dynagear.DynaGearClient"
+    ],
+    "dynagear:materials": [
+      "io.github.cottonmc.dynagear.CottonResourcesIntegration"
     ]
   },
   "requires": {

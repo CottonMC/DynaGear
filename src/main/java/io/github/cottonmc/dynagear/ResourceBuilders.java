@@ -2,19 +2,21 @@ package io.github.cottonmc.dynagear;
 
 import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
+import io.github.cottonmc.dynagear.api.ConfiguredMaterial;
+import io.github.cottonmc.dynagear.api.EquipmentCategory;
+import io.github.cottonmc.dynagear.api.EquipmentType;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
+import net.minecraft.util.registry.Registry;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResourceBuilders {
-	public static final Map<String, Pair<String[], Boolean>> PATTERNS = new HashMap<>();
 
-	public static ShapedRecipeBuilder applyDict(ShapedRecipeBuilder builder, String mat, boolean stick) {
-		if (stick) builder.ingredientItem('/', new Identifier("stick"));
+	public static ShapedRecipeBuilder applyDict(ShapedRecipeBuilder builder, String mat, EquipmentCategory category) {
+		if (category == EquipmentCategory.TOOLS) builder.ingredientItem('/', new Identifier("stick"));
 		if (mat.indexOf('#') == 0) {
 			Identifier id = new Identifier(mat.substring(1));
 			builder.ingredientTag('#', id);
@@ -27,42 +29,45 @@ public class ResourceBuilders {
 
 	public static void createRecipes(EquipmentSet set) {
 		ConfiguredMaterial material = set.getMaterial();
-		for (String piece : PATTERNS.keySet()) {
+		for (EquipmentType type : DynaGear.EQUIPMENT_TYPES) {
+			String piece = type.getSuffix();
 			Identifier result = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
-			Pair<String[], Boolean> pattern = PATTERNS.get(piece);
-			DynaGear.RECIPES.put(result, (builder) -> applyDict(builder.pattern(pattern.getLeft()), material.getMaterialId(), pattern.getRight()).result(result, 1));
+			Registry.register(DynaGear.RECIPES, result, (builder) -> applyDict(builder.pattern(type.getCraftingPattern()), material.getMaterialId(), type.getCategory()).result(result, 1));
+		}
+	}
+
+	public static void appendTags(EquipmentSet set) {
+		ConfiguredMaterial material = set.getMaterial();
+		for (EquipmentType type : DynaGear.EQUIPMENT_TYPES) {
+			String piece = type.getSuffix();
+			Identifier tagId = type.getEquipmentTag();
+			if (tagId == null) continue;
+			Identifier result = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
+			if (!DynaGear.TAGS.containsId(tagId)) Registry.register(DynaGear.TAGS, tagId, new ArrayList<>());
+			List<Identifier> toAdd = DynaGear.TAGS.get(tagId);
+			toAdd.add(result);
+
 		}
 	}
 
 	@Environment(EnvType.CLIENT)
 	public static void createModels(EquipmentSet set) {
 		ConfiguredMaterial material = set.getMaterial();
-		for (String piece : PATTERNS.keySet()) {
+		for (EquipmentType type : DynaGear.EQUIPMENT_TYPES) {
+			String piece = type.getSuffix();
 			Identifier item = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
-			Boolean twoLayer = PATTERNS.get(piece).getRight();
-			DynaGearClient.MODELS.put(item, (builder) -> applyModel(builder.parent(new Identifier("item/generated")), piece, twoLayer));
+			EquipmentCategory category = type.getCategory();
+			DynaGearClient.MODELS.put(item, (builder) -> applyModel(builder.parent(new Identifier("item/generated")), piece, category));
 		}
 	}
 
-	public static ModelBuilder applyModel(ModelBuilder builder, String part, boolean tool) {
-		if (tool) {
+	public static ModelBuilder applyModel(ModelBuilder builder, String part, EquipmentCategory category) {
+		if (category == EquipmentCategory.TOOLS) {
 			builder.texture("layer0", new Identifier(DynaGear.MODID, "item/" + part + "_head"));
 			builder.texture("layer1", new Identifier(DynaGear.MODID, "item/" + part + "_handle"));
 		} else {
 			builder.texture("layer0", new Identifier(DynaGear.MODID, "item/armor_" + part));
 		}
 		return builder;
-	}
-
-	static {
-		PATTERNS.put("sword", new Pair<>(new String[]{"#", "#", "/"}, true));
-		PATTERNS.put("shovel", new Pair<>(new String[]{"#", "/", "/"}, true));
-		PATTERNS.put("pickaxe", new Pair<>(new String[]{"###", " / ", " / "}, true));
-		PATTERNS.put("axe", new Pair<>(new String[]{"##", "#/", " /"}, true));
-		PATTERNS.put("hoe", new Pair<>(new String[]{"##", " /", " /"}, true));
-		PATTERNS.put("helmet", new Pair<>(new String[]{"###", "# #"}, false));
-		PATTERNS.put("chestplate", new Pair<>(new String[]{"# #", "###", "###"}, false));
-		PATTERNS.put("leggings", new Pair<>(new String[]{"###", "# #", "# #"}, false));
-		PATTERNS.put("boots", new Pair<>(new String[]{"# #", "# #"}, false));
 	}
 }

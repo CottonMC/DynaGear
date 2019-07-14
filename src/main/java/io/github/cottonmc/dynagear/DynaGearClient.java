@@ -10,7 +10,6 @@ import net.fabricmc.fabric.impl.client.render.ColorProviderRegistryImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Pair;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,8 +23,8 @@ public class DynaGearClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		for (EquipmentSet set : MaterialConfig.EQUIPMENT.values()) {
-			ResourceBuilders.createModels(set);
+		for (Identifier id : DynaGear.EQUIPMENT.getIds()) {
+			ResourceBuilders.createModels(DynaGear.EQUIPMENT.get(id));
 		}
 		Artifice.registerAssets(new Identifier(DynaGear.MODID, "dynagear_assets"), assets -> {
 			for (Identifier id : MODELS.keySet()) {
@@ -40,7 +39,8 @@ public class DynaGearClient implements ClientModInitializer {
 				DynaGear.logger.warn("Couldn't dump resource packs!!");
 			}
 		}
-		for (EquipmentSet set : MaterialConfig.EQUIPMENT.values()) {
+		for (Identifier id : DynaGear.EQUIPMENT.getIds()) {
+			EquipmentSet set = DynaGear.EQUIPMENT.get(id);
 			ColorProviderRegistryImpl.ITEM.register((stack, layer) -> {
 				if (layer == 0) return set.getMaterial().getColor();
 				else return -1;
