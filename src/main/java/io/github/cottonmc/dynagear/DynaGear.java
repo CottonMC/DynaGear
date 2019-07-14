@@ -42,7 +42,7 @@ public class DynaGear implements ModInitializer {
 			try {
 				Artifice.DATA.get(new Identifier(MODID, "dynagear_data")).dumpResources(path);
 			} catch (IOException e) {
-				logger.warn("Couldn't dump data packs!!");
+				logger.warn("[DynaGear] Couldn't dump data packs!");
 			}
 		}
 	}

@@ -16,6 +16,8 @@ import net.minecraft.util.registry.Registry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -28,10 +30,10 @@ public class MaterialConfig {
 			File file = FabricLoader.getInstance().getConfigDirectory().toPath().resolve("dynagear.json5").toFile();
 			if (!file.exists()) {
 				if (FabricLoader.getInstance().isModLoaded("cotton-resources")) {
-					DynaGear.logger.info("Cotton Resources detected! Generating default equipment...");
+					DynaGear.logger.info("[DynaGear] Cotton Resources detected! Generating default equipment...");
 					exportResourcesConfig();
 				} else {
-					DynaGear.logger.warn("No config was found! DynaGear will not add any equipment!");
+					DynaGear.logger.warn("[DynaGear] No config was found! DynaGear will not add any equipment!");
 					return;
 				}
 			}
@@ -44,7 +46,7 @@ public class MaterialConfig {
 					JsonObject config = (JsonObject)elem;
 					String material = config.get(String.class, "material");
 					if (material == null) {
-						DynaGear.logger.error("Could not find ingredient material for material " + key + "! Skipping!");
+						DynaGear.logger.error("[DynaGear] Could not find ingredient material for material " + key + "! Skipping!");
 						continue;
 					}
 					ConfiguredMaterial mat = getMaterial(key, config);
@@ -52,7 +54,7 @@ public class MaterialConfig {
 				}
 			}
 		} catch (IOException | SyntaxError e) {
-			DynaGear.logger.error("Error loading config: {}", e.getMessage());
+			DynaGear.logger.error("[DynaGear] Error loading config: {}", e.getMessage());
 		}
 	}
 
@@ -98,22 +100,20 @@ public class MaterialConfig {
 	}
 
 	public static void exportResourcesConfig() {
-		File export = FabricLoader.getInstance().getModContainer("dynagear")
-				.orElseThrow(IllegalStateException::new).getPath("cr_config.json5").toFile();
-		File target = FabricLoader.getInstance().getConfigDirectory().toPath().resolve("dynagear.json5").toFile();
-		if (export.exists()) {
-			try {
-				JsonObject json = jankson.load(export);
-				//TODO: once ore-voting is merged, remove elements for non-registered Cotton Resources mats
-				String result = json.toJson(true, true);
-				if (!target.exists()) target.createNewFile();
-				FileOutputStream out = new FileOutputStream(target, false);
-				out.write(result.getBytes());
-				out.flush();
-				out.close();
-			} catch (IOException | SyntaxError e) {
-				DynaGear.logger.error("Could not find the Cotton Resources config to export!");
-			}
+		try {
+			InputStream export = Files.newInputStream(FabricLoader.getInstance().getModContainer("dynagear")
+					.orElseThrow(IllegalStateException::new).getPath("cr_config.json5").toAbsolutePath().normalize());
+			File target = FabricLoader.getInstance().getConfigDirectory().toPath().resolve("dynagear.json5").toFile();
+			JsonObject json = jankson.load(export);
+			//TODO: once ore-voting is merged, remove elements for non-registered Cotton Resources mats
+			String result = json.toJson(true, true);
+			if (!target.exists()) target.createNewFile();
+			FileOutputStream out = new FileOutputStream(target, false);
+			out.write(result.getBytes());
+			out.flush();
+			out.close();
+		} catch (IOException | SyntaxError e) {
+			DynaGear.logger.error("[DynaGear] Could not find the Cotton Resources config to export!");
 		}
 
 	}
