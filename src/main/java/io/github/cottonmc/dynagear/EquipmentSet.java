@@ -1,9 +1,7 @@
 package io.github.cottonmc.dynagear;
 
 
-import io.github.cottonmc.dynagear.util.DynaAxeItem;
-import io.github.cottonmc.dynagear.util.DynaPickaxeItem;
-import io.github.cottonmc.dynagear.util.ResourceBuilders;
+import io.github.cottonmc.dynagear.item.*;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
@@ -26,15 +24,15 @@ public class EquipmentSet {
 	private EquipmentSet(ConfiguredMaterial material) {
 		this.name = material.getMaterialName();
 		this.material = material;
-		equipment.put(name+"_sword", new SwordItem(material, 3, -2.4f, getSettings()));
-		equipment.put(name+"_shovel", new ShovelItem(material, 1.5F, -3.0F, getSettings()));
+		equipment.put(name+"_sword", new DynaSwordItem(material, 3, -2.4f, getSettings()));
+		equipment.put(name+"_shovel", new DynaShovelItem(material, 1.5F, -3.0F, getSettings()));
 		equipment.put(name+"_pickaxe", new DynaPickaxeItem(material, 1, -2.8F, getSettings()));
 		equipment.put(name+"_axe", new DynaAxeItem(material, 6.0F, -3.2F, getSettings()));
-		equipment.put(name+"_hoe", new HoeItem(material, material.getMiningLevel()-3, getSettings()));
-		equipment.put(name+"_helmet", new ArmorItem(material, EquipmentSlot.HEAD, getSettings()));
-		equipment.put(name+"_chestplate", new ArmorItem(material, EquipmentSlot.CHEST, getSettings()));
-		equipment.put(name+"_leggings", new ArmorItem(material, EquipmentSlot.LEGS, getSettings()));
-		equipment.put(name+"_boots", new ArmorItem(material, EquipmentSlot.FEET, getSettings()));
+		equipment.put(name+"_hoe", new DynaHoeItem(material, material.getMiningLevel()-3, getSettings()));
+		equipment.put(name+"_helmet", new DynaArmorItem(material, "helmet", EquipmentSlot.HEAD, getSettings()));
+		equipment.put(name+"_chestplate", new DynaArmorItem(material, "chestplate", EquipmentSlot.CHEST, getSettings()));
+		equipment.put(name+"_leggings", new DynaArmorItem(material, "leggings", EquipmentSlot.LEGS, getSettings()));
+		equipment.put(name+"_boots", new DynaArmorItem(material, "boots", EquipmentSlot.FEET, getSettings()));
 	}
 
 	private void registerAll() {

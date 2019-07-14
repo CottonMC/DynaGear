@@ -1,4 +1,4 @@
-package io.github.cottonmc.dynagear.util;
+package io.github.cottonmc.dynagear;
 
 import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
@@ -45,17 +45,6 @@ public class ResourceBuilders {
 			Identifier item = new Identifier(DynaGear.MODID, material.getMaterialName() + "_" + piece);
 			Boolean twoLayer = PATTERNS.get(piece).getRight();
 			DynaGearClient.MODELS.put(item, (builder) -> applyModel(builder.parent(new Identifier("item/generated")), piece, twoLayer));
-		}
-	}
-
-	@Environment(EnvType.CLIENT)
-	public static void createTranslations(EquipmentSet set) {
-		ConfiguredMaterial material = set.getMaterial();
-		for (String piece : PATTERNS.keySet()) {
-			String id = "item.dynagear." + material.getMaterialName() + "_" + piece;
-			String name = material.getMaterialName().substring(0,1).toUpperCase() + material.getMaterialName().substring(1);
-
-			DynaGearClient.ITEM_TRANSLATIONS.put(id, new Pair<>("translation.dynagear."+piece, name));
 		}
 	}
 

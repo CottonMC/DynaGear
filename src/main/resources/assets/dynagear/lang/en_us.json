@@ -1,12 +1,12 @@
 {
   "itemGroup.dynagear.dynagear": "DynaGear",
-  "translation.dynagear.sword": "%s Sword",
-  "translation.dynagear.shovel": "%s Shovel",
-  "translation.dynagear.pickaxe": "%s Pickaxe",
-  "translation.dynagear.axe": "%s Axe",
-  "translation.dynagear.hoe": "%s Hoe",
-  "translation.dynagear.helmet": "%s Helmet",
-  "translation.dynagear.chestplate": "%s Chestplate",
-  "translation.dynaear.leggings": "%s Leggings",
-  "translation.dynagear.boots": "%s Boots"
+  "item.dynagear.sword": "%s Sword",
+  "item.dynagear.shovel": "%s Shovel",
+  "item.dynagear.pickaxe": "%s Pickaxe",
+  "item.dynagear.axe": "%s Axe",
+  "item.dynagear.hoe": "%s Hoe",
+  "item.dynagear.helmet": "%s Helmet",
+  "item.dynagear.chestplate": "%s Chestplate",
+  "item.dynagear.leggings": "%s Leggings",
+  "item.dynagear.boots": "%s Boots"
 }
