@@ -14,7 +14,7 @@ import net.minecraft.util.registry.Registry;
 import java.awt.Color;
 
 public class ConfiguredMaterial {
-	private static final int[] BASE_ARMOR_DURABILITY = new int[]{13, 15, 16, 11};
+	protected static final int[] BASE_ARMOR_DURABILITY = new int[]{13, 15, 16, 11};
 	private final String name;
 	private final String color;
 	private Integer colorVal;
@@ -171,8 +171,9 @@ public class ConfiguredMaterial {
 
 		@Override
 		@Environment(EnvType.CLIENT)
+		//Used for getting the armor texture! Override this in a subclass if you want to change the texture your mat uses.
 		public String getName() {
-			return name;
+			return "dyna";
 		}
 
 		@Override
