@@ -22,7 +22,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DynaGear implements ModInitializer {
 	public static final String MODID = "dynagear";
@@ -32,8 +34,8 @@ public class DynaGear implements ModInitializer {
 	public static final ItemGroup DYNAGEAR_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "dynagear"), () -> new ItemStack(Items.DIAMOND_CHESTPLATE));
 
 	public static final Registry<Processor<ShapedRecipeBuilder>> RECIPES = new SimpleRegistry<>();
-	public static final Registry<List<Identifier>> TAGS = new SimpleRegistry<>();
-	public static final Registry<ConfiguredMaterial> MATERIALS = new SimpleRegistry<>();
+	public static final Map<Identifier, List<Identifier>> TAGS = new HashMap<>();
+	public static final Map<Identifier, ConfiguredMaterial> MATERIALS = new HashMap<>();
 	public static final List<EquipmentType> EQUIPMENT_TYPES = new ArrayList<>();
 	public static final Registry<EquipmentSet> EQUIPMENT = new SimpleRegistry<>();
 
@@ -48,9 +50,9 @@ public class DynaGear implements ModInitializer {
 
 		for (ConfiguredMaterial mat : mats.getMaterials()) {
 			Identifier id = new Identifier(MODID, mat.getName());
-			if (!MATERIALS.containsId(id)) Registry.register(MATERIALS, id, mat);
+			MATERIALS.putIfAbsent(id, mat);
 		}
-		for (Identifier id : MATERIALS.getIds()) {
+		for (Identifier id : MATERIALS.keySet()) {
 			ConfiguredMaterial mat = MATERIALS.get(id);
 			Registry.register(EQUIPMENT, new Identifier(DynaGear.MODID, mat.getName()), EquipmentSet.create(mat));
 		}
@@ -59,7 +61,7 @@ public class DynaGear implements ModInitializer {
 			for (Identifier id : RECIPES.getIds()) {
 				data.addShapedRecipe(id, (builder) -> RECIPES.get(id).process(builder));
 			}
-			for (Identifier id : TAGS.getIds()) {
+			for (Identifier id : TAGS.keySet()) {
 				data.addItemTag(id, (builder) -> builder.values(TAGS.get(id).toArray(new Identifier[0])));
 			}
 		});

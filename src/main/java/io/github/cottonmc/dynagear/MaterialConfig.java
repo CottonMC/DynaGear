@@ -47,7 +47,7 @@ public class MaterialConfig {
 						continue;
 					}
 					ConfiguredMaterial mat = getMaterial(key, config);
-					Registry.register(DynaGear.MATERIALS, new Identifier(DynaGear.MODID, key), mat);
+					DynaGear.MATERIALS.put(new Identifier(DynaGear.MODID, key), mat);
 				}
 			}
 		} catch (IOException | SyntaxError e) {

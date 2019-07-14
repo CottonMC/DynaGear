@@ -43,7 +43,7 @@ public class ResourceBuilders {
 			Identifier tagId = type.getEquipmentTag();
 			if (tagId == null) continue;
 			Identifier result = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
-			if (!DynaGear.TAGS.containsId(tagId)) Registry.register(DynaGear.TAGS, tagId, new ArrayList<>());
+			DynaGear.TAGS.putIfAbsent(tagId, new ArrayList<>());
 			List<Identifier> toAdd = DynaGear.TAGS.get(tagId);
 			toAdd.add(result);
 
