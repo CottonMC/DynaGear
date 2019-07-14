@@ -2,10 +2,6 @@ package io.github.cottonmc.dynagear;
 
 import com.swordglowsblue.artifice.api.builder.assets.ModelBuilder;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
-import io.github.cottonmc.dynagear.ConfiguredMaterial;
-import io.github.cottonmc.dynagear.DynaGear;
-import io.github.cottonmc.dynagear.DynaGearClient;
-import io.github.cottonmc.dynagear.EquipmentSet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.util.Identifier;
@@ -32,7 +28,7 @@ public class ResourceBuilders {
 	public static void createRecipes(EquipmentSet set) {
 		ConfiguredMaterial material = set.getMaterial();
 		for (String piece : PATTERNS.keySet()) {
-			Identifier result = new Identifier(DynaGear.MODID, material.getMaterialName() + "_" + piece);
+			Identifier result = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
 			Pair<String[], Boolean> pattern = PATTERNS.get(piece);
 			DynaGear.RECIPES.put(result, (builder) -> applyDict(builder.pattern(pattern.getLeft()), material.getMaterialId(), pattern.getRight()).result(result, 1));
 		}
@@ -42,7 +38,7 @@ public class ResourceBuilders {
 	public static void createModels(EquipmentSet set) {
 		ConfiguredMaterial material = set.getMaterial();
 		for (String piece : PATTERNS.keySet()) {
-			Identifier item = new Identifier(DynaGear.MODID, material.getMaterialName() + "_" + piece);
+			Identifier item = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
 			Boolean twoLayer = PATTERNS.get(piece).getRight();
 			DynaGearClient.MODELS.put(item, (builder) -> applyModel(builder.parent(new Identifier("item/generated")), piece, twoLayer));
 		}

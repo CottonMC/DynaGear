@@ -11,7 +11,7 @@ public class DynaArmorItem extends ArmorItem {
 	private ConfiguredMaterial material;
 	private String type;
 	public DynaArmorItem(ConfiguredMaterial material, String type, EquipmentSlot slot, Settings settings) {
-		super(material, slot, settings);
+		super(material.asArmor(), slot, settings);
 		this.material = material;
 		this.type = type;
 	}
@@ -23,13 +23,13 @@ public class DynaArmorItem extends ArmorItem {
 
 	@Override
 	public Text getName() {
-		String mat = material.getMaterialName().substring(0, 1).toUpperCase() + material.getMaterialName().substring(1);
+		String mat = material.getName().substring(0, 1).toUpperCase() + material.getName().substring(1);
 		return new TranslatableText(getTranslationKey(), mat);
 	}
 
 	@Override
 	public Text getName(ItemStack stack) {
-		String mat = material.getMaterialName().substring(0, 1).toUpperCase() + material.getMaterialName().substring(1);
+		String mat = material.getName().substring(0, 1).toUpperCase() + material.getName().substring(1);
 		return new TranslatableText(getTranslationKey(), mat);
 	}
 }

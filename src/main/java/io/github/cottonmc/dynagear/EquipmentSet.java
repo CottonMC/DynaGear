@@ -22,13 +22,13 @@ public class EquipmentSet {
 	public static final String[] EQUIPMENT = new String[]{"_sword", "_shovel", "_pickaxe", "_axe", "_hoe", "_helmet", "_chestplate", "_leggings", "_boots"};
 
 	private EquipmentSet(ConfiguredMaterial material) {
-		this.name = material.getMaterialName();
+		this.name = material.getName();
 		this.material = material;
 		equipment.put(name+"_sword", new DynaSwordItem(material, 3, -2.4f, getSettings()));
 		equipment.put(name+"_shovel", new DynaShovelItem(material, 1.5F, -3.0F, getSettings()));
 		equipment.put(name+"_pickaxe", new DynaPickaxeItem(material, 1, -2.8F, getSettings()));
 		equipment.put(name+"_axe", new DynaAxeItem(material, 6.0F, -3.2F, getSettings()));
-		equipment.put(name+"_hoe", new DynaHoeItem(material, material.getMiningLevel()-3, getSettings()));
+		equipment.put(name+"_hoe", new DynaHoeItem(material, material.asTool().getMiningLevel()-3, getSettings()));
 		equipment.put(name+"_helmet", new DynaArmorItem(material, "helmet", EquipmentSlot.HEAD, getSettings()));
 		equipment.put(name+"_chestplate", new DynaArmorItem(material, "chestplate", EquipmentSlot.CHEST, getSettings()));
 		equipment.put(name+"_leggings", new DynaArmorItem(material, "leggings", EquipmentSlot.LEGS, getSettings()));

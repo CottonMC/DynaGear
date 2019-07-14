@@ -9,7 +9,7 @@ import net.minecraft.text.TranslatableText;
 public class DynaAxeItem extends AxeItem {
 	private ConfiguredMaterial material;
 	public DynaAxeItem(ConfiguredMaterial material, float baseAttackDamage, float attackSpeed, Settings settings) {
-		super(material, baseAttackDamage, attackSpeed, settings);
+		super(material.asTool(), baseAttackDamage, attackSpeed, settings);
 		this.material = material;
 	}
 
@@ -20,13 +20,13 @@ public class DynaAxeItem extends AxeItem {
 
 	@Override
 	public Text getName() {
-		String mat = material.getMaterialName().substring(0, 1).toUpperCase() + material.getMaterialName().substring(1);
+		String mat = material.getName().substring(0, 1).toUpperCase() + material.getName().substring(1);
 		return new TranslatableText(getTranslationKey(), mat);
 	}
 
 	@Override
 	public Text getName(ItemStack stack) {
-		String mat = material.getMaterialName().substring(0, 1).toUpperCase() + material.getMaterialName().substring(1);
+		String mat = material.getName().substring(0, 1).toUpperCase() + material.getName().substring(1);
 		return new TranslatableText(getTranslationKey(), mat);
 	}
 }

@@ -9,13 +9,11 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Lazy;
 import net.minecraft.util.registry.Registry;
 
-import java.awt.*;
-import java.util.function.Supplier;
+import java.awt.Color;
 
-public class ConfiguredMaterial implements ArmorMaterial, ToolMaterial {
+public class ConfiguredMaterial {
 	private static final int[] BASE_ARMOR_DURABILITY = new int[]{13, 15, 16, 11};
 	private final String name;
 	private final String color;
@@ -49,14 +47,8 @@ public class ConfiguredMaterial implements ArmorMaterial, ToolMaterial {
 		this.equipSound = equipSound;
 	}
 
-	public String getMaterialName() {
-		return name;
-	}
-
-	@Override
-	@Environment(EnvType.CLIENT)
 	public String getName() {
-		return getMaterialName();
+		return name;
 	}
 
 	public int getColor() {
@@ -77,8 +69,7 @@ public class ConfiguredMaterial implements ArmorMaterial, ToolMaterial {
 		return matId;
 	}
 
-	@Override
-	public Ingredient getRepairIngredient() {
+	public Ingredient getIngredient() {
 		if (ingredient != null) return ingredient;
 		if (matId.indexOf('#') == 0) {
 			Identifier id = new Identifier(matId.substring(1));
@@ -89,48 +80,83 @@ public class ConfiguredMaterial implements ArmorMaterial, ToolMaterial {
 		}
 	}
 
-	@Override
-	public int getEnchantability() {
-		return enchantability;
+	public ConfiguredTool asTool() {
+		return new ConfiguredTool();
 	}
 
-	@Override
-	public int getDurability() {
-		return toolDurability;
+	public ConfiguredArmor asArmor() {
+		return new ConfiguredArmor();
 	}
 
-	@Override
-	public int getMiningLevel() {
-		return miningLevel;
+	public class ConfiguredTool implements ToolMaterial {
+
+		@Override
+		public int getDurability() {
+			return toolDurability;
+		}
+
+		@Override
+		public float getMiningSpeed() {
+			return miningSpeed;
+		}
+
+		@Override
+		public float getAttackDamage() {
+			return attackDamage;
+		}
+
+		@Override
+		public int getMiningLevel() {
+			return miningLevel;
+		}
+
+		@Override
+		public int getEnchantability() {
+			return enchantability;
+		}
+
+		@Override
+		public Ingredient getRepairIngredient() {
+			return getIngredient();
+		}
 	}
 
-	@Override
-	public float getMiningSpeed() {
-		return miningSpeed;
-	}
+	public class ConfiguredArmor implements ArmorMaterial {
 
-	@Override
-	public float getAttackDamage() {
-		return attackDamage;
-	}
+		@Override
+		public int getDurability(EquipmentSlot slot) {
+			return armorDurabilityMultiplier * BASE_ARMOR_DURABILITY[slot.getEntitySlotId()];
+		}
 
-	@Override
-	public int getDurability(EquipmentSlot slot) {
-		return armorDurabilityMultiplier * BASE_ARMOR_DURABILITY[slot.getEntitySlotId()];
-	}
+		@Override
+		public int getProtectionAmount(EquipmentSlot slot) {
+			return protectionAmounts[slot.getEntitySlotId()];
+		}
 
-	@Override
-	public int getProtectionAmount(EquipmentSlot slot) {
-		return protectionAmounts[slot.getEntitySlotId()];
-	}
+		@Override
+		public int getEnchantability() {
+			return enchantability;
+		}
 
-	@Override
-	public float getToughness() {
-		return toughness;
-	}
+		@Override
+		public SoundEvent getEquipSound() {
+			return equipSound;
+		}
 
-	@Override
-	public SoundEvent getEquipSound() {
-		return equipSound;
+		@Override
+		public Ingredient getRepairIngredient() {
+			return getIngredient();
+		}
+
+		@Override
+		@Environment(EnvType.CLIENT)
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public float getToughness() {
+			return toughness;
+		}
 	}
 }
