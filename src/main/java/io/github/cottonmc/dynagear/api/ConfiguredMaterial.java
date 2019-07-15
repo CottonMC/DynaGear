@@ -36,7 +36,7 @@ public class ConfiguredMaterial {
 	 * @param name The name of the material.
 	 * @param color The color of the material, in #AARRGGBB or int ARGB form.
 	 * @param matId The ID of the crafting/repair material. (prefix with # for a tag)
-	 * @param blockMatId The ID of the block form of the crafting/repair material. (prefix with # for a tag)
+	 * @param blockMatId The ID of the block form of the crafting/repair material. (prefix with # for a tag) Set to "" for empty.
 	 * @param enchantability How enchantable the material is, from 0 to 25.
 	 * @param toolDurability How much durability tools of this material have.
 	 * @param miningLevel The max level of block this tool can mine.
