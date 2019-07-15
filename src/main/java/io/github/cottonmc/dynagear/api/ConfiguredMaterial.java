@@ -43,7 +43,7 @@ public class ConfiguredMaterial {
 	 * @param miningSpeed The mining speed of this tool. (bigger is better)
 	 * @param attackDamage How much base damage equipment of this material should do.
 	 * @param armorDurabilityMultiplier How much armor of this material should have its durability multiplied by. (see {@link ConfiguredMaterial#BASE_ARMOR_DURABILITY})
-	 * @param protectionAmounts How many armor points each piece of armor gives, in order from head to foot.
+	 * @param protectionAmounts How many armor points each piece of armor gives, in order from foot to head.
 	 * @param toughness How much armor toughness this material's armor should give.
 	 * @param equipSound The sound to play when equipping this material's armor.
 	 */
