@@ -7,6 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 public class SimpleEquipmentType implements EquipmentType {
@@ -33,6 +35,11 @@ public class SimpleEquipmentType implements EquipmentType {
 	@Override
 	public String[] getCraftingPattern() {
 		return pattern;
+	}
+
+	@Override
+	public Map<Character, String> getAdditionalIngredients() {
+		return new HashMap<>();
 	}
 
 	@Nullable

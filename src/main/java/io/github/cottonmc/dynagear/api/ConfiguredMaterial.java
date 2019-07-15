@@ -20,6 +20,7 @@ public class ConfiguredMaterial {
 	private Integer colorVal;
 	private final String matId;
 	private Ingredient ingredient;
+	private final String blockMatId;
 	private final int enchantability;
 	private final int toolDurability;
 	private final int miningLevel;
@@ -35,6 +36,7 @@ public class ConfiguredMaterial {
 	 * @param name The name of the material.
 	 * @param color The color of the material, in #AARRGGBB or int ARGB form.
 	 * @param matId The ID of the crafting/repair material. (prefix with # for a tag)
+	 * @param blockMatId The ID of the block form of the crafting/repair material. (prefix with # for a tag)
 	 * @param enchantability How enchantable the material is, from 0 to 25.
 	 * @param toolDurability How much durability tools of this material have.
 	 * @param miningLevel The max level of block this tool can mine.
@@ -45,12 +47,13 @@ public class ConfiguredMaterial {
 	 * @param toughness How much armor toughness this material's armor should give.
 	 * @param equipSound The sound to play when equipping this material's armor.
 	 */
-	public ConfiguredMaterial(String name, String color, String matId, int enchantability,
+	public ConfiguredMaterial(String name, String color, String matId, String blockMatId, int enchantability,
 							  int toolDurability, int miningLevel, float miningSpeed, float attackDamage,
 							  int armorDurabilityMultiplier, int[] protectionAmounts, float toughness, SoundEvent equipSound) {
 		this.name = name;
 		this.color = color;
 		this.matId = matId;
+		this.blockMatId = blockMatId;
 		this.enchantability = enchantability;
 		this.toolDurability = toolDurability;
 		this.miningLevel = miningLevel;
@@ -93,6 +96,10 @@ public class ConfiguredMaterial {
 			Identifier id = new Identifier(matId);
 			return ingredient = Ingredient.ofItems(Registry.ITEM.get(id));
 		}
+	}
+
+	public String getBlockMaterialId() {
+		return blockMatId;
 	}
 
 	/**

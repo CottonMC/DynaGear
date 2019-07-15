@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 
 public interface EquipmentType {
 	/**
@@ -13,9 +14,17 @@ public interface EquipmentType {
 
 	/**
 	 * @return The crafting pattern for this equipment type.
-	 * Use `#` for materials, and `/` for sticks.
+	 * Use `#` for materials, `%` for material blocks, and `/` for sticks.
+	 * Add more ingredients with {@link EquipmentType#getAdditionalIngredients()}
 	 */
 	String[] getCraftingPattern();
+
+	/**
+	 * @return Key-value pairs of additional ingredients required for this type's recipe.
+	 * Should be independent of material.
+	 * `#`, `%`, and `/` are reserved already.
+	 */
+	Map<Character, String> getAdditionalIngredients();
 
 	/**
 	 * @return The item tag to put this equipment type into, if any.

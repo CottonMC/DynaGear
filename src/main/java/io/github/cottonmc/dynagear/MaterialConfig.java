@@ -58,6 +58,7 @@ public class MaterialConfig {
 	public static ConfiguredMaterial getMaterial(String name, JsonObject json) throws SyntaxError {
 		String color = json.get(String.class, "color");
 		String material = json.get(String.class, "material");
+		String blockMaterial = json.get(String.class, "block_material");
 		Integer enchantability = json.get(Integer.class, "enchantability");
 		Integer toolDurability = json.get(Integer.class, "tool_durability");
 		Integer miningLevel = json.get(Integer.class, "mining_level");
@@ -70,6 +71,7 @@ public class MaterialConfig {
 
 		if (color == null) throw new SyntaxError("No color for material " + name);
 		if (material == null) throw new SyntaxError("No material ingredient for material " + name);
+		if (blockMaterial == null) blockMaterial = "";
 		if (enchantability == null) throw new SyntaxError("No enchantability for material " + name);
 		if (toolDurability == null) throw new SyntaxError("No tool durability for material " + name);
 		if (miningLevel == null) throw new SyntaxError("No mining level for material " + name);
@@ -93,6 +95,6 @@ public class MaterialConfig {
 		}
 
 		SoundEvent sound = Registry.SOUND_EVENT.get(new Identifier(soundId));
-		return new ConfiguredMaterial(name, color, material, enchantability, toolDurability, miningLevel, miningSpeed, attackDamage, armorMultiplier, prots.toArray(new int[4]), toughness, sound);
+		return new ConfiguredMaterial(name, color, material, blockMaterial, enchantability, toolDurability, miningLevel, miningSpeed, attackDamage, armorMultiplier, prots.toArray(new int[4]), toughness, sound);
 	}
 }

@@ -12,10 +12,11 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ResourceBuilders {
 
-	public static ShapedRecipeBuilder applyDict(ShapedRecipeBuilder builder, String mat, EquipmentCategory category) {
+	public static ShapedRecipeBuilder applyDict(ShapedRecipeBuilder builder, String mat, EquipmentCategory category, EquipmentType type) {
 		if (category == EquipmentCategory.TOOLS) builder.ingredientItem('/', new Identifier("stick"));
 		if (mat.indexOf('#') == 0) {
 			Identifier id = new Identifier(mat.substring(1));
@@ -23,6 +24,31 @@ public class ResourceBuilders {
 		} else {
 			Identifier id = new Identifier(mat);
 			builder.ingredientItem('#', id);
+		}
+		if (type.getAdditionalIngredients() != null) {
+			Map<Character, String> ingredients = type.getAdditionalIngredients();
+			for (Character ch : ingredients.keySet()) {
+				String ing = ingredients.get(ch);
+				if (ing.indexOf('#') == 0) {
+					Identifier id = new Identifier(ing.substring(1));
+					builder.ingredientTag(ch, id);
+				} else {
+					Identifier id = new Identifier(ing);
+					builder.ingredientItem(ch, id);
+				}
+			}
+		}
+		return builder;
+	}
+
+	public static ShapedRecipeBuilder applyBlockDict(ShapedRecipeBuilder builder, String mat, String blockMat, EquipmentCategory category, EquipmentType type) {
+		applyDict(builder, mat, category, type);
+		if (blockMat.indexOf('#') == 0) {
+			Identifier id = new Identifier(blockMat.substring(1));
+			builder.ingredientTag('%', id);
+		} else {
+			Identifier id = new Identifier(blockMat);
+			builder.ingredientItem('%', id);
 		}
 		return builder;
 	}
@@ -32,7 +58,17 @@ public class ResourceBuilders {
 		for (EquipmentType type : DynaGear.EQUIPMENT_TYPES) {
 			String piece = type.getSuffix();
 			Identifier result = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
-			Registry.register(DynaGear.RECIPES, result, (builder) -> applyDict(builder.pattern(type.getCraftingPattern()), material.getMaterialId(), type.getCategory()).result(result, 1));
+			String[] pattern = type.getCraftingPattern();
+			boolean needsBlock = false;
+			for (String str : pattern) {
+				if (str.contains("%")) needsBlock = true;
+			}
+			if (needsBlock) {
+				//don't register a recipe if the material has no block form!
+				if (!material.getBlockMaterialId().equals("")) Registry.register(DynaGear.RECIPES, result, (builder) -> applyBlockDict(builder.pattern(type.getCraftingPattern()), material.getMaterialId(), material.getBlockMaterialId(), type.getCategory(), type).result(result, 1));
+			} else {
+				Registry.register(DynaGear.RECIPES, result, (builder) -> applyDict(builder.pattern(type.getCraftingPattern()), material.getMaterialId(), type.getCategory(), type).result(result, 1));
+			}
 		}
 	}
 
