@@ -22,7 +22,7 @@
       "io.github.cottonmc.dynagear.CottonResourcesIntegration"
     ]
   },
-  "requires": {
+  "depends": {
     "fabricloader": ">=0.4.0"
   }
 }
