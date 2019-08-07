@@ -93,7 +93,7 @@ public class ResourceBuilders {
 			String piece = type.getSuffix();
 			Identifier item = new Identifier(DynaGear.MODID, material.getName() + "_" + piece);
 			EquipmentCategory category = type.getCategory();
-			DynaGearClient.MODELS.put(item, (builder) -> applyModel(builder.parent(new Identifier("item/generated")), piece, category));
+			DynaGearClient.MODELS.put(item, (builder) -> applyModel(builder.parent(category == EquipmentCategory.ARMOR? new Identifier("item/generated") : new Identifier("item/handheld")), piece, category));
 		}
 	}
 
