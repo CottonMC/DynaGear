@@ -15,16 +15,17 @@ public interface EquipmentType {
 	/**
 	 * @return The crafting pattern for this equipment type.
 	 * Use `#` for materials, `%` for material blocks, and `/` for sticks.
-	 * Add more ingredients with {@link EquipmentType#getAdditionalIngredients()}
+	 * Add more ingredients with {@link EquipmentType#getAdditionalIngredients(String)}
 	 */
 	String[] getCraftingPattern();
 
 	/**
+	 * @param materialName The name of the material having recipes constructed.
 	 * @return Key-value pairs of additional ingredients required for this type's recipe.
 	 * Should be independent of material.
 	 * `#`, `%`, and `/` are reserved already.
 	 */
-	Map<Character, String> getAdditionalIngredients();
+	Map<Character, String> getAdditionalIngredients(String materialName);
 
 	/**
 	 * @return The item tag to put this equipment type into, if any.

@@ -38,7 +38,7 @@ public class SimpleEquipmentType implements EquipmentType {
 	}
 
 	@Override
-	public Map<Character, String> getAdditionalIngredients() {
+	public Map<Character, String> getAdditionalIngredients(String materialName) {
 		return new HashMap<>();
 	}
 

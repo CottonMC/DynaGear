@@ -45,9 +45,6 @@ public class CottonResourcesIntegration implements MaterialAdder {
 		materials.put("lead", new ConfiguredMaterial("lead", "#ff64536d", "#c:lead_ingot", "#c:lead_block", 20,
 				375, 1, 5.25f, 1.5f,
 				18, new int[]{2, 4, 4, 2}, 0.6f, SoundEvents.ITEM_ARMOR_EQUIP_GOLD));
-		materials.put("mercury", new ConfiguredMaterial("mercury", "#ffff0000", "#c:mercury", "", 10,
-				50, 0, 2, 0,
-				5, new int[]{2, 2, 2, 1}, 0, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN));
 		materials.put("osmium", new ConfiguredMaterial("osmium", "#ffafc0ed", "#c:osmium_ingot", "#c:osmium_block", 16,
 				500, 2, 4.25f, 2,
 				20, new int[]{3, 6, 6, 3}, 1, SoundEvents.ITEM_ARMOR_EQUIP_IRON));
