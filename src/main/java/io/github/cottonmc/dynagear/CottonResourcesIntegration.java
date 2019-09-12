@@ -33,7 +33,7 @@ public class CottonResourcesIntegration implements MaterialAdder {
 		materials.put("cobalt", new ConfiguredMaterial("cobalt", "#ff1d41c4", "#c:cobalt_ingot", "#c:cobalt_block", 16,
 				800, 3, 12, 4,
 				22, new int[]{4, 6, 6, 4}, 0.3f, SoundEvents.ITEM_ARMOR_EQUIP_IRON));
-		materials.put("copper", new ConfiguredMaterial("copper", "#ffc35d12", "#c:copper_ingot", "#c:cobalt_block", 12,
+		materials.put("copper", new ConfiguredMaterial("copper", "#ffc35d12", "#c:copper_ingot", "#c:copper_block", 12,
 				275, 1, 5.3f, 1,
 				12, new int[]{2, 4, 5, 2}, 0.5f, SoundEvents.ITEM_ARMOR_EQUIP_IRON));
 		materials.put("electrum", new ConfiguredMaterial("electrum", "#ffffe86d", "#c:electrum_ingot", "#c:electrum_block", 16,
