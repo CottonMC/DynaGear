@@ -11,8 +11,6 @@ import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.awt.Color;
-
 public class ConfiguredMaterial {
 	protected static final int[] BASE_ARMOR_DURABILITY = new int[]{13, 15, 16, 11};
 	private final String name;
@@ -73,14 +71,7 @@ public class ConfiguredMaterial {
 		if (colorVal != null) {
 			return colorVal;
 		}
-		if (color.startsWith("#")) {
-			int a = Integer.valueOf(color.substring(1, 3), 16);
-			int r = Integer.valueOf(color.substring(3, 5), 16);
-			int g = Integer.valueOf(color.substring(5, 7), 16);
-			int b = Integer.valueOf(color.substring(7, 9), 16);
-			return colorVal = new Color(r, g, b, a).getRGB();
-		}
-		return colorVal = Color.decode(color).getRGB();
+		return colorVal = Integer.decode(color.replace("#", "0x")) | 0xFF000000;
 	}
 
 	public String getMaterialId() {
