@@ -71,7 +71,11 @@ public class ConfiguredMaterial {
 		if (colorVal != null) {
 			return colorVal;
 		}
-		return colorVal = Integer.decode(color.replace("#", "0x")) | 0xFF000000;
+		return colorVal = Integer.decode(color) | 0xFF000000;
+	}
+
+	public String getColorString() {
+		return color;
 	}
 
 	public String getMaterialId() {

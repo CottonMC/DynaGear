@@ -1,9 +1,11 @@
 package io.github.cottonmc.dynagear;
 
 import blue.endless.jankson.*;
-import blue.endless.jankson.impl.SyntaxError;
+import blue.endless.jankson.api.SyntaxError;
 import io.github.cottonmc.dynagear.api.ConfiguredMaterial;
 import io.github.cottonmc.jankson.JanksonFactory;
+import io.github.cottonmc.staticdata.StaticData;
+import io.github.cottonmc.staticdata.StaticDataItem;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.fabricmc.loader.api.FabricLoader;
@@ -14,13 +16,16 @@ import net.minecraft.util.registry.Registry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public class MaterialConfig {
 
-	public static final Jankson jankson = JanksonFactory.createJankson();
+	public static Jankson getJankson() {
+		return JanksonFactory.createJankson();
+	}
 
 	public static void loadConfig() {
 		try {
@@ -34,7 +39,7 @@ public class MaterialConfig {
 				out.close();
 				return;
 			}
-			JsonObject json = jankson.load(file);
+			JsonObject json = getJankson().load(file);
 			List<String> keys = new ArrayList<>(json.keySet());
 			Collections.sort(keys);
 			for (String key : keys) {
@@ -52,6 +57,34 @@ public class MaterialConfig {
 			}
 		} catch (IOException | SyntaxError e) {
 			DynaGear.logger.error("[DynaGear] Error loading config: {}", e.getMessage());
+		}
+	}
+
+	public static void loadData() {
+		Set<StaticDataItem> data = StaticData.getAll("dynagear.json5");
+		for (StaticDataItem file : data) {
+			try {
+				JsonObject json = getJankson().load(file.createInputStream());
+				List<String> keys = new ArrayList<>(json.keySet());
+				Collections.sort(keys);
+				for (String key : keys) {
+					JsonElement elem = json.get(key);
+					if (elem instanceof JsonObject) {
+						JsonObject config = (JsonObject)elem;
+						String material = config.get(String.class, "material");
+						if (material == null) {
+							DynaGear.logger.error("[DynaGear] Could not find ingredient material for material {} in {}! Skipping!", key, file.getIdentifier().toString());
+							continue;
+						}
+						ConfiguredMaterial mat = getMaterial(key, config);
+						Identifier matId = new Identifier(DynaGear.MODID, key);
+						if (!DynaGear.MATERIALS.containsKey(matId)) DynaGear.MATERIALS.put(matId, mat);
+						else DynaGear.logger.error("[DynaGear] Skipping materian {} in {}, as it already exists", key, file.getIdentifier().toString());
+					}
+				}
+			} catch (IOException | SyntaxError e) {
+				DynaGear.logger.error("[DynaGear] Error loading data file {}: {}", file.getIdentifier().toString(), e.getMessage());
+			}
 		}
 	}
 
