@@ -49,8 +49,8 @@ dependencies {
 	modImplementation "io.github.cottonmc:LibCD:1.3.1+1.14.4"
 	modImplementation "io.github.cottonmc.cotton:cotton:1.0.0-rc.2"
 
-	modImplementation "io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0"
-	include "io.github.cottonmc:Jankson-Fabric:2.0.0+j1.2.0"
+	modImplementation "io.github.cottonmc:Jankson:1.0.0+j1.1.2"
+	include "io.github.cottonmc:Jankson:1.0.0+j1.1.2"
 	modImplementation "artificemc:artifice:0.3.4"
 	include "artificemc:artifice:0.3.4"
 	modImplementation "io.github.cottonmc:StaticData:1.1.2"
