@@ -35,6 +35,10 @@ dependencies {
 	modImplementation "io.github.cottonmc:Jankson-Fabric:${project.jankson_version}"
 	modImplementation "com.lettuce.fudge:artifice:${project.artifice_version}"
 	modRuntime ("io.github.cottonmc:cotton-resources:${project.cotton_resources_version}") { exclude(group: 'me.shedaniel', module: 'RoughlyEnoughItems') }
+
+	include "io.github.cottonmc:StaticData:${project.static_data_version}"
+	include "io.github.cottonmc:Jankson-Fabric:${project.jankson_version}"
+	include "com.lettuce.fudge:artifice:${project.artifice_version}"
 }
 
 processResources {
