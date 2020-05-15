@@ -1,9 +1,10 @@
 package io.github.cottonmc.dynagear;
 
-
 import com.swordglowsblue.artifice.api.Artifice;
+import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
 import com.swordglowsblue.artifice.api.util.Processor;
+import com.swordglowsblue.artifice.common.ArtificeRegistry;
 import io.github.cottonmc.dynagear.api.*;
 import io.github.cottonmc.dynagear.impl.EquipmentManager;
 import io.github.cottonmc.dynagear.impl.MaterialManager;
@@ -67,7 +68,7 @@ public class DynaGear implements ModInitializer {
 		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			String path = FabricLoader.getInstance().getGameDirectory().toPath().resolve("dynagear_export").toString();
 			try {
-				Artifice.DATA.get(new Identifier(MODID, "dynagear_data")).dumpResources(path);
+				((ArtificeResourcePack)ArtificeRegistry.DATA.get(new Identifier(MODID, "dynagear_data"))).dumpResources(path);
 			} catch (IOException e) {
 				logger.warn("[DynaGear] Couldn't dump data packs!");
 			}

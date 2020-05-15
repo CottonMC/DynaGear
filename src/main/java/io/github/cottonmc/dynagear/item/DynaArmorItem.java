@@ -2,7 +2,6 @@ package io.github.cottonmc.dynagear.item;
 
 import io.github.cottonmc.dynagear.api.ConfiguredMaterial;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.DyeableArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;

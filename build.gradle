@@ -1,60 +1,40 @@
-buildscript {
-	repositories {
-		jcenter()
-		maven {
-			name = 'Fabric'
-			url = 'http://maven.modmuss50.me/'
-		}
-	}
-	dependencies {
-		classpath "net.fabricmc:fabric-loom:0.2.4-SNAPSHOT"
-	}
-}
-
 plugins {
-	id 'java'
-	id 'eclipse'
-	id 'idea'
-	id 'maven-publish'
-	id "com.jfrog.artifactory" version "4.9.0"
+	id "fabric-loom" version "0.2.7-SNAPSHOT"
+	id "maven-publish"
+	id "com.jfrog.artifactory" version "4.15.2"
 }
-
-apply plugin: net.fabricmc.loom.LoomGradlePlugin
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-if(rootProject.file('private.gradle').exists()) { //Publishing details
-	apply from: 'private.gradle'
+if(rootProject.file("private.gradle").exists()) { //Publishing details
+	apply from: "private.gradle"
 }
 
-archivesBaseName = "dynagear"
-group = "io.github.cottonmc"
-version = "1.3.4+1.14.4"
+archivesBaseName = "${project.archives_base_name}"
+group = "${project.maven_group}"
+version = "${project.mod_version}+${project.minecraft_version}"
+
+minecraft {
+}
 
 repositories {
-	mavenCentral()
-	maven { url "http://server.bbkr.space:8081/artifactory/libs-release" }
-	maven { url "https://maven.swordglowsblue.com" }
+	jcenter() // JCenter - home of Artifice
+	maven { url "https://server.bbkr.space/artifactory/libs-release" } // Cotton maven - home of Cotton projects
+	maven { url "https://maven.abusedmaster.xyz" } // NerdHub maven - home of Cardinal Components
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:1.14.4"
-	mappings "net.fabricmc:yarn:1.14.4+build.9"
-	modImplementation "net.fabricmc:fabric-loader:0.4.8+build.159"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.3.0+build.207"
-	implementation "com.google.code.findbugs:jsr305:3.0.2"
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_build}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
 
-	modImplementation ("io.github.cottonmc:cotton-resources:1.4.1+1.14.4") { exclude(group: 'me.shedaniel', module: 'RoughlyEnoughItems') }
-	modImplementation "io.github.cottonmc:LibCD:1.3.1+1.14.4"
-	modImplementation "io.github.cottonmc.cotton:cotton:1.0.0-rc.2"
-
-	modImplementation "io.github.cottonmc:Jankson:1.0.0+j1.1.2"
-	include "io.github.cottonmc:Jankson:1.0.0+j1.1.2"
-	modImplementation "artificemc:artifice:0.3.4"
-	include "artificemc:artifice:0.3.4"
-	modImplementation "io.github.cottonmc:StaticData:1.1.2"
-	include "io.github.cottonmc:StaticData:1.1.2"
+	modImplementation "io.github.cottonmc:StaticData:${project.static_data_version}"
+	modImplementation "io.github.cottonmc:Jankson-Fabric:${project.jankson_version}"
+	modImplementation "com.lettuce.fudge:artifice:${project.artifice_version}"
+	modRuntime ("io.github.cottonmc:cotton-resources:${project.cotton_resources_version}") { exclude(group: 'me.shedaniel', module: 'RoughlyEnoughItems') }
 }
 
 processResources {
@@ -79,7 +59,7 @@ tasks.withType(JavaCompile) {
 // if it is present.
 // If you remove this task, sources will not be generated.
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
+	archiveClassifier = "sources"
 	from sourceSets.main.allSource
 }
 
@@ -92,18 +72,15 @@ publishing {
 	publications {
 		maven(MavenPublication) {
 			// add all the jars that should be included when publishing to maven
-			//artifact(jar) {
-			//	builtBy remapJar
-			//}
-			artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}.jar") { //release jar - file location not provided anywhere in loom
+			artifact(remapJar) {
 				classifier null
 				builtBy remapJar
 			}
 
-			artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}-dev.jar") { //release jar - file location not provided anywhere in loom
+			/*artifact ("${project.buildDir.absolutePath}/libs/${archivesBaseName}-${project.version}-dev.jar") { //release jar - file location not provided anywhere in loom
 				classifier "dev"
 				builtBy remapJar
-			}
+			}*/
 
 			artifact(sourcesJar) {
 				builtBy remapSourcesJar
@@ -120,7 +97,7 @@ publishing {
 
 artifactory {
 	if (project.hasProperty("artifactoryUsername")) {
-		contextUrl = "http://server.bbkr.space:8081/artifactory/"
+		contextUrl = "https://server.bbkr.space/artifactory/"
 		publish {
 			repository {
 				if (version.contains("SNAPSHOT")) {
