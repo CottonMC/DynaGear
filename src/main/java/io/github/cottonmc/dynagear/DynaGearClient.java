@@ -34,14 +34,14 @@ public class DynaGearClient implements ClientModInitializer {
 				assets.addItemModel(id, MODELS.get(id));
 			}
 		});
-		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+		/*if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			String path = FabricLoader.getInstance().getGameDirectory().toPath().resolve("dynagear_export").toString();
 			try {
 				((ArtificeResourcePack)ArtificeRegistry.ASSETS.get(new Identifier(DynaGear.MODID, "dynagear_assets"))).dumpResources(path);
 			} catch (IOException e) {
 				DynaGear.logger.warn("Couldn't dump resource packs!!");
 			}
-		}
+		}*/
 		for (Identifier id : DynaGear.EQUIPMENT.getIds()) {
 			EquipmentSet set = DynaGear.EQUIPMENT.get(id);
 			ColorProviderRegistry.ITEM.register((stack, layer) -> {

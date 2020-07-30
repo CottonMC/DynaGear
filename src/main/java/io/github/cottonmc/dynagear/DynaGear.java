@@ -1,5 +1,6 @@
 package io.github.cottonmc.dynagear;
 
+import com.mojang.serialization.Lifecycle;
 import com.swordglowsblue.artifice.api.Artifice;
 import com.swordglowsblue.artifice.api.ArtificeResourcePack;
 import com.swordglowsblue.artifice.api.builder.data.recipe.ShapedRecipeBuilder;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,12 +32,14 @@ public class DynaGear implements ModInitializer {
 	public static final Logger logger = LogManager.getLogger();
 
 	public static final ItemGroup DYNAGEAR_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "dynagear"), () -> new ItemStack(Items.DIAMOND_CHESTPLATE));
+	public static final RegistryKey<Registry<Processor<ShapedRecipeBuilder>>> RECIPES_KEY = RegistryKey.ofRegistry(new Identifier(MODID,"dynagear_recipes"));
+	public static final Registry<Processor<ShapedRecipeBuilder>> RECIPES = new SimpleRegistry<>(RECIPES_KEY, Lifecycle.experimental());
 
-	public static final Registry<Processor<ShapedRecipeBuilder>> RECIPES = new SimpleRegistry<>();
 	public static final Map<Identifier, List<Identifier>> TAGS = new HashMap<>();
 	public static final Map<Identifier, ConfiguredMaterial> MATERIALS = new HashMap<>();
 	public static final List<EquipmentType> EQUIPMENT_TYPES = new ArrayList<>();
-	public static final Registry<EquipmentSet> EQUIPMENT = new SimpleRegistry<>();
+	public static final RegistryKey<Registry<EquipmentSet>> EQUIPMENT_KEY = RegistryKey.ofRegistry(new Identifier(MODID,"dynagear_equipment_sets"));
+	public static final Registry<EquipmentSet> EQUIPMENT = new SimpleRegistry<>(EQUIPMENT_KEY,Lifecycle.experimental());
 
 	@Override
 	public void onInitialize() {
@@ -65,14 +69,14 @@ public class DynaGear implements ModInitializer {
 				data.addItemTag(id, (builder) -> builder.values(TAGS.get(id).toArray(new Identifier[0])));
 			}
 		});
-		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+		/*if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			String path = FabricLoader.getInstance().getGameDirectory().toPath().resolve("dynagear_export").toString();
 			try {
 				((ArtificeResourcePack)ArtificeRegistry.DATA.get(new Identifier(MODID, "dynagear_data"))).dumpResources(path);
 			} catch (IOException e) {
 				logger.warn("[DynaGear] Couldn't dump data packs!");
 			}
-		}
+		}*/
 	}
 
 	public static Item.Settings getSettings() {

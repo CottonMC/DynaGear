@@ -9,7 +9,7 @@ import net.minecraft.text.TranslatableText;
 public class DynaHoeItem extends HoeItem {
 	private ConfiguredMaterial material;
 	public DynaHoeItem(ConfiguredMaterial material, float attackSpeed, Settings settings) {
-		super(material.asTool(), attackSpeed, settings);
+		super(material.asTool(), 0, attackSpeed, settings);
 		this.material = material;
 	}
 
