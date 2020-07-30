@@ -100,6 +100,7 @@ public class MaterialConfig {
 		Integer armorMultiplier = json.get(Integer.class, "armor_multiplier");
 		JsonArray protectionAmounts = (JsonArray)json.get("protection_amounts");
 		Float toughness = json.get(Float.class, "armor_toughness");
+		Float knockbackResistance = json.get(Float.class, "armor_knockback_resistance");
 		String soundId = json.get(String.class, "equip_sound");
 
 		if (color == null) throw new SyntaxError("No color for material " + name);
@@ -113,6 +114,7 @@ public class MaterialConfig {
 		if (armorMultiplier == null) throw new SyntaxError("No armor multiplier for material " + name);
 		if (protectionAmounts == null) throw new SyntaxError("No protection amounts for material " + name);
 		if (toughness == null) throw new SyntaxError("No armor toughness for material " + name);
+		if (knockbackResistance == null) knockbackResistance=0f;
 		if (soundId == null) throw new SyntaxError("No equip sound for material " + name);
 
 		IntList prots = new IntArrayList();
@@ -128,6 +130,6 @@ public class MaterialConfig {
 		}
 
 		SoundEvent sound = Registry.SOUND_EVENT.get(new Identifier(soundId));
-		return new ConfiguredMaterial(name, color, material, blockMaterial, enchantability, toolDurability, miningLevel, miningSpeed, attackDamage, armorMultiplier, prots.toArray(new int[4]), toughness, sound);
+		return new ConfiguredMaterial(name, color, material, blockMaterial, enchantability, toolDurability, miningLevel, miningSpeed, attackDamage, armorMultiplier, prots.toArray(new int[4]), toughness, knockbackResistance, sound);
 	}
 }

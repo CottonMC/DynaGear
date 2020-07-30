@@ -28,6 +28,7 @@ public class ConfiguredMaterial {
 	private final int[] protectionAmounts;
 	private final SoundEvent equipSound;
 	private final float toughness;
+	private final float knockbackResistance;
 
 	/**
 	 * The parameters for creating an equipment set.
@@ -47,7 +48,7 @@ public class ConfiguredMaterial {
 	 */
 	public ConfiguredMaterial(String name, String color, String matId, String blockMatId, int enchantability,
 							  int toolDurability, int miningLevel, float miningSpeed, float attackDamage,
-							  int armorDurabilityMultiplier, int[] protectionAmounts, float toughness, SoundEvent equipSound) {
+							  int armorDurabilityMultiplier, int[] protectionAmounts, float toughness, float knockbackResistance, SoundEvent equipSound) {
 		this.name = name;
 		this.color = color;
 		this.matId = matId;
@@ -60,6 +61,7 @@ public class ConfiguredMaterial {
 		this.armorDurabilityMultiplier = armorDurabilityMultiplier;
 		this.protectionAmounts = protectionAmounts;
 		this.toughness = toughness;
+		this.knockbackResistance=knockbackResistance;
 		this.equipSound = equipSound;
 	}
 
@@ -119,7 +121,7 @@ public class ConfiguredMaterial {
 		}
 
 		@Override
-		public float getMiningSpeed() {
+		public float getMiningSpeedMultiplier() {
 			return miningSpeed;
 		}
 
@@ -181,6 +183,11 @@ public class ConfiguredMaterial {
 		@Override
 		public float getToughness() {
 			return toughness;
+		}
+
+		@Override
+		public float getKnockbackResistance() {
+			return knockbackResistance;
 		}
 	}
 }
