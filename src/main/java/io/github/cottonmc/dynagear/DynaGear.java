@@ -33,13 +33,13 @@ public class DynaGear implements ModInitializer {
 
 	public static final ItemGroup DYNAGEAR_GROUP = FabricItemGroupBuilder.build(new Identifier(MODID, "dynagear"), () -> new ItemStack(Items.DIAMOND_CHESTPLATE));
 	public static final RegistryKey<Registry<Processor<ShapedRecipeBuilder>>> RECIPES_KEY = RegistryKey.ofRegistry(new Identifier(MODID,"dynagear_recipes"));
-	public static final Registry<Processor<ShapedRecipeBuilder>> RECIPES = new SimpleRegistry<>(RECIPES_KEY, Lifecycle.experimental());
+	public static final Registry<Processor<ShapedRecipeBuilder>> RECIPES = new SimpleRegistry<>(RECIPES_KEY, Lifecycle.stable());
 
 	public static final Map<Identifier, List<Identifier>> TAGS = new HashMap<>();
 	public static final Map<Identifier, ConfiguredMaterial> MATERIALS = new HashMap<>();
 	public static final List<EquipmentType> EQUIPMENT_TYPES = new ArrayList<>();
 	public static final RegistryKey<Registry<EquipmentSet>> EQUIPMENT_KEY = RegistryKey.ofRegistry(new Identifier(MODID,"dynagear_equipment_sets"));
-	public static final Registry<EquipmentSet> EQUIPMENT = new SimpleRegistry<>(EQUIPMENT_KEY,Lifecycle.experimental());
+	public static final Registry<EquipmentSet> EQUIPMENT = new SimpleRegistry<>(EQUIPMENT_KEY,Lifecycle.stable());
 
 	@Override
 	public void onInitialize() {
@@ -69,14 +69,14 @@ public class DynaGear implements ModInitializer {
 				data.addItemTag(id, (builder) -> builder.values(TAGS.get(id).toArray(new Identifier[0])));
 			}
 		});
-		/*if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
 			String path = FabricLoader.getInstance().getGameDirectory().toPath().resolve("dynagear_export").toString();
 			try {
 				((ArtificeResourcePack)ArtificeRegistry.DATA.get(new Identifier(MODID, "dynagear_data"))).dumpResources(path);
 			} catch (IOException e) {
 				logger.warn("[DynaGear] Couldn't dump data packs!");
 			}
-		}*/
+		}
 	}
 
 	public static Item.Settings getSettings() {

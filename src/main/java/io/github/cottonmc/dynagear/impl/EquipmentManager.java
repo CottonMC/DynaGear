@@ -24,7 +24,7 @@ public class EquipmentManager {
 		addBuiltinEquipment(new SimpleEquipmentType("axe", new String[]{"##", "#/", " /"}, new Identifier("fabric:axes"), EquipmentCategory.TOOLS,
 				material -> new DynaAxeItem(material, 6.0F, -3.2F, DynaGear.getSettings())));
 		addBuiltinEquipment(new SimpleEquipmentType("hoe", new String[]{"##", " /", " /"}, new Identifier("fabric:hoes"), EquipmentCategory.TOOLS,
-				material -> new DynaHoeItem(material, material.asTool().getMiningLevel()-3, DynaGear.getSettings())));
+				material -> new DynaHoeItem(material,-material.asTool().getMiningLevel(), material.asTool().getMiningLevel()-3, DynaGear.getSettings())));
 		addBuiltinEquipment(new SimpleEquipmentType("helmet", new String[]{"###", "# #"}, null, EquipmentCategory.ARMOR,
 				material -> new DynaArmorItem(material, "helmet", EquipmentSlot.HEAD, DynaGear.getSettings())));
 		addBuiltinEquipment(new SimpleEquipmentType("chestplate", new String[]{"# #", "###", "###"}, null, EquipmentCategory.ARMOR,

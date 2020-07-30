@@ -8,8 +8,8 @@ import net.minecraft.text.TranslatableText;
 
 public class DynaHoeItem extends HoeItem {
 	private ConfiguredMaterial material;
-	public DynaHoeItem(ConfiguredMaterial material, float attackSpeed, Settings settings) {
-		super(material.asTool(), 0, attackSpeed, settings);
+	public DynaHoeItem(ConfiguredMaterial material, int baseAttackDamage, float attackSpeed, Settings settings) {
+		super(material.asTool(), baseAttackDamage, attackSpeed, settings);
 		this.material = material;
 	}
 
